@@ -1,0 +1,36 @@
+#root {
+  width: 100%;
+  height: 100vh; /* Para que ocupe la altura completa */
+  margin: 0;
+  padding: 0;
+  --color-primario: #f00000e8;
+  --color-secundario: #8E0A05;
+  --color-botones: #8E0A05;
+  --color-blanco: #fff;
+}
+
+
+
+
+.ant-btn-default{
+  color: var(--color-secundario);
+  background: transparent;
+  border: none !important;
+}
+
+.ant-btn-default::selected{
+  border: none;
+  background: transparent;
+}
+
+
+
+.ant-btn-primary{
+  background-color: var(--color-botones)!important;
+  color: var(--color-blanco);
+}
+
+.ant-sider .ant-menu{
+  color: var(--color-blanco)!important;
+  font-weight: 600;
+}
