@@ -4,9 +4,17 @@ import { ShoppingCartOutlined } from '@ant-design/icons';
 import { ClientesUseCases } from '../../assets/config/core/application/usecases/ClientesUseCases';
 import { ClientesRepositoryImpl } from '../../assets/config/repositoryImpl/ClientesRepositoryImpl';
 import { getClients } from '../../assets/config/entities/Clientes';
+import { ProductosRepositoryImpl } from '../../assets/config/repositoryImpl/ProductosRepositoryImpl';
+import { ProductoUseCases } from '../../assets/config/core/application/usecases/ProductoUseCases';
+import { getProduct } from '../../assets/config/entities/Productos';
+
+
 
 const { Option } = Select;
 
+
+const productoRepository= new ProductosRepositoryImpl();
+const productoUseCases= new ProductoUseCases(productoRepository); 
 
 const clientesRepository= new ClientesRepositoryImpl();
 const clientesUseCases= new ClientesUseCases(clientesRepository);
@@ -14,11 +22,17 @@ const clientesUseCases= new ClientesUseCases(clientesRepository);
 const DashboardComponent = () => {
     const [clientes, setClientes]= useState<getClients[]>([]);
     const [form] = Form.useForm();
-    const [products] = useState([
-        { name: 'Producto 1', price: 100 },
-        { name: 'Producto 2', price: 200 }
-    ]);
+    const [products, setProducts] = useState<getProduct[]>([]);
     const [selectedProducts, setSelectedProducts] = useState([]);
+
+    const fetchProducts= async() => {
+        const response= await productoUseCases.getProduct(); 
+        setProducts(response);
+    }; 
+
+    useEffect(() =>{
+        fetchProducts();
+    }, []);
 
     const handleFinish = (values: any) => {
         console.log('Detalles de la venta:', values);
@@ -29,10 +43,11 @@ const DashboardComponent = () => {
     };
 
     const handleSelectProduct = (value: any) => {
-        const product = products.find(p => p.name === value);
+        const product = products.find(p => p.Name === value);
         if (product) {
             const quantity = form.getFieldValue('quantity') || 1; // Valor por defecto 1
-            const total = product.price * quantity;
+            //@ts-expect-error
+            const total = product.PublicPrice * quantity;
 
             // Actualiza el total en el formulario
             form.setFieldsValue({ total });
@@ -88,7 +103,7 @@ const DashboardComponent = () => {
                 >
                     <Select placeholder="Selecciona un producto" onChange={handleSelectProduct}>
                         {products.map(product => (
-                            <Option key={product.name} value={product.name}>{product.name}</Option>
+                            <Option key={product.Name} value={product.Name}>{product.Name}</Option>
                         ))}
                     </Select>
                 </Form.Item>
@@ -117,8 +132,8 @@ const DashboardComponent = () => {
             <Table
                 dataSource={selectedProducts}
                 columns={[
-                    { title: 'Producto', dataIndex: 'name', key: 'name' },
-                    { title: 'Precio', dataIndex: 'price', key: 'price' },
+                    { title: 'Producto', dataIndex: 'Name', key: 'Name' },
+                    { title: 'Precio', dataIndex: 'PublicPrice', key: 'PublicPrice' },
                     { title: 'Cantidad', dataIndex: 'quantity', key: 'quantity' }
                 ]}
                 pagination={false}
