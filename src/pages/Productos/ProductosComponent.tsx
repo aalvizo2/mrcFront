@@ -13,18 +13,18 @@ import {
     SearchOutlined,
 }from '@ant-design/icons'; 
 
-import { AddModal, EditarModal, DetailsModal} from "./ProvedoresModal";
+import { AddModal, EditarModal, DetailsModal} from "./ProductoModal";
 import { MdAutorenew } from "react-icons/md";
 import { CgDetailsMore } from "react-icons/cg";
-import { ProvedoresRepositoryImpl } from "../../assets/config/repositoryImpl/ProvedoresRepositoryImpl";
-import { ProvedoresUseCases } from "../../assets/config/core/application/usecases/ProvedoresUseCases";
-import { activateProvidor, deleteProvidor, editProvidor, getProvidors, newProvidor } from "../../assets/config/entities/Provedores";
+import { ProductosRepositoryImpl } from "../../assets/config/repositoryImpl/ProductosRepositoryImpl";
+import { ProductoUseCases } from "../../assets/config/core/application/usecases/ProductoUseCases";
+import { activateProduct, deleteProduct, editProduct, getProduct, newProduct } from "../../assets/config/entities/Productos";
 
 
 
-const provedoresRepository= new ProvedoresRepositoryImpl();
-const provedoresUseCases= new ProvedoresUseCases(provedoresRepository);
 
+const productoRepository= new ProductosRepositoryImpl(); 
+const productoUseCases= new ProductoUseCases(productoRepository); 
 
 
 
@@ -35,8 +35,8 @@ const {Option}= Select;
 
 
 
-const ProvedoresComponent: React.FC= () =>{
-    const [data, setData]= useState<getProvidors[]>([]);
+const ProductosComponent: React.FC= () =>{
+    const [data, setData]= useState<getProduct[]>([]);
     const [loading, setLoading]= useState(false);
     const [searchText, setSearchText] = useState<string>("");
     const [filterState, setFilterState] = useState<string>("todos")
@@ -46,7 +46,7 @@ const ProvedoresComponent: React.FC= () =>{
     const fetchData= async() =>{
         setLoading(true); 
         try{
-            const response= await provedoresUseCases.getProvidors();
+            const response= await productoUseCases.getProduct();
             setData(response);
         }catch(error){
             console.error('error al cargar los datos', error);
@@ -60,9 +60,9 @@ const ProvedoresComponent: React.FC= () =>{
     }, []);
     
     //Add
-    const handleAdd= async(values: newProvidor) =>{
+    const handleAdd= async(values: newProduct) =>{
         try{
-             await provedoresUseCases.newProvidor(values);
+             await productoUseCases.newProduct(values);
              fetchData();
              handleCloseModal();
         }catch(error){
@@ -71,10 +71,10 @@ const ProvedoresComponent: React.FC= () =>{
     };
 
     //Edit 
-    const handleEdit= async(newData: editProvidor) =>{
+    const handleEdit= async(newData: editProduct) =>{
         try{
-            
-           await provedoresUseCases.editProvidor(newData);
+           console.log('valores a enviar 2', newData)
+           await productoUseCases.editProduct(newData);
            fetchData();
         }catch(error){
             console.error('Error al Editar', error)
@@ -82,9 +82,9 @@ const ProvedoresComponent: React.FC= () =>{
     }
 
     //Delete 
-    const Eliminar= async(record: deleteProvidor)=>{
+    const Eliminar= async(record: deleteProduct)=>{
         try{
-           await provedoresUseCases.deleteProvidor(record.Id);
+           await productoUseCases.deleteProduct(record.Id);
            fetchData();
         }catch(error){
             console.error('Error al eliminar')
@@ -92,15 +92,15 @@ const ProvedoresComponent: React.FC= () =>{
     };
 
     //Activate 
-    const Activar= async(record: activateProvidor) =>{
-        await provedoresUseCases.activateProvidor(record.Id);
+    const Activar= async(record: activateProduct) =>{
+        await productoUseCases.activateProduct(record.Id);
         fetchData();
     }
 
     //Modals
     const [modal, setModal]= useState(false); 
     const [editModal, setEditModal]= useState(false);
-    const [datoFila, setDatoFila]= useState<getProvidors | null>(null);
+    const [datoFila, setDatoFila]= useState<getProduct | null>(null);
     const [seeModal, setSeeModal]= useState(false);
 
     const openAddModal= () =>{
@@ -111,13 +111,13 @@ const ProvedoresComponent: React.FC= () =>{
         setModal(false);
     }; 
 
-    const openEditForm= (record: getProvidors) => {
+    const openEditForm= (record: getProduct) => {
         setDatoFila(record);
         setEditModal(true);
 
     };
     
-    const openSeeForm= (record: getProvidors) =>{
+    const openSeeForm= (record: getProduct) =>{
         setDatoFila(record);
         setSeeModal(true);
     }
@@ -125,10 +125,10 @@ const ProvedoresComponent: React.FC= () =>{
 
     //Table columns
     const columns=[
-        { title: 'Nombre Provedor', dataIndex: 'Name', key: 'Name'},
-        {title: 'Dirección', dataIndex: 'Address', key: 'Address'},
-        { title: 'Número de Teléfono', dataIndex: 'PhoneNumber', key: 'PhoneNumber'},
-        
+        { title: 'Nombre Producto', dataIndex: 'Name', key: 'Name'},
+        {title: 'Cantidad', dataIndex: 'Amount', key: 'Amount'},
+        {title: 'Precio', dataIndex: 'PublicPrice', key: 'Amount'},
+        {title: 'Provedor', dataIndex: 'Providor', key: 'Providor'},
         {
             title: 'Estatus',
             dataIndex: 'State',
@@ -217,7 +217,7 @@ const ProvedoresComponent: React.FC= () =>{
 
     return(
        <>
-           <h1>Provedores</h1>
+           <h1>Productos</h1>
            
            <Button
              type="primary"
@@ -276,4 +276,4 @@ const ProvedoresComponent: React.FC= () =>{
     )
 }
 
-export default ProvedoresComponent;
+export default ProductosComponent;

@@ -15,7 +15,7 @@ import {
 import { activateClient, deleteClient, EditClient, getClients, newClient } from "../../assets/config/entities/Clientes";
 import { ClientesRepositoryImpl } from "../../assets/config/repositoryImpl/ClientesRepositoryImpl";
 import { ClientesUseCases } from "../../assets/config/core/application/usecases/ClientesUseCases";
-import { AddModal, EditarModal } from "./ClientesModal";
+import { AddModal, EditarModal, DetailsModal} from "./ClientesModal";
 import { MdAutorenew } from "react-icons/md";
 import { CgDetailsMore } from "react-icons/cg";
 
@@ -97,6 +97,7 @@ const ClientesComponent: React.FC= () =>{
     const [modal, setModal]= useState(false); 
     const [editModal, setEditModal]= useState(false);
     const [datoFila, setDatoFila]= useState<getClients | null>(null);
+    const [seeModal, setSeeModal]= useState(false);
 
     const openAddModal= () =>{
         setModal(true);
@@ -110,7 +111,13 @@ const ClientesComponent: React.FC= () =>{
         setDatoFila(record);
         setEditModal(true);
 
+    };
+    
+    const openSeeForm= (record: getClients) =>{
+        setDatoFila(record);
+        setSeeModal(true);
     }
+
 
     //Table columns
     const columns=[
@@ -184,7 +191,7 @@ const ClientesComponent: React.FC= () =>{
                     )}
 
                     <Button type="default" 
-                        //onClick={() => openSeeForm(record)}
+                        onClick={() => openSeeForm(record)}
                     >
                         <div className="botones">
                             <CgDetailsMore />
@@ -262,6 +269,11 @@ const ClientesComponent: React.FC= () =>{
               open={editModal}
               onCancel={() => setEditModal(false)}
               onSubmit={handleEdit}
+              datoFila={datoFila}
+            />
+            <DetailsModal
+              open={seeModal}
+              onCancel={() => setSeeModal(false)}
               datoFila={datoFila}
             />
        </>
