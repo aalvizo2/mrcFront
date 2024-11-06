@@ -2,8 +2,8 @@ export interface getProduct{
     Id: string;
     Name: string;
     Amount: string;
-    Price: string;
-    PublicPrice: string;
+    Price: number;
+    PublicPrice: number;
     State: boolean;
     Providor: string;
     CreatedAt: string;
@@ -13,8 +13,8 @@ export interface getProduct{
 export interface newProduct{
     Name: string;
     Amount: string;
-    Price: string;
-    PublicPrice: string;
+    Price: number;
+    PublicPrice: number;
     Providor: string;
 
 }
@@ -23,8 +23,8 @@ export interface editProduct{
     Id: string;
     Name: string;
     Amount: string;
-    Price: string;
-    PublicPrice: string;
+    Price: number;
+    PublicPrice: number;
     Providor: string;
     
 }
