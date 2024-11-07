@@ -92,6 +92,7 @@ const DashboardComponent = () => {
                 numeroNota
             );
             setNotaContador(prevNota => prevNota + 1); 
+            console.log('arreglo de los productos', selectedProducts)
 
             const valores={
                 cliente: selectedClient.FullName,
@@ -114,7 +115,7 @@ const DashboardComponent = () => {
 
     const handleSelectProduct = (value: any) => {
         const product = products.find(p => p.Name === value);
-        const quantity = form.getFieldValue('quantity') || 1;
+        const quantity = form.getFieldValue('quantity') || '';
 
         if (product) {
             const productTotal = product.PublicPrice * quantity;
@@ -129,7 +130,9 @@ const DashboardComponent = () => {
                             : p
                     );
                 }
+                console.log('cantidad antes de llegar al endpoint', quantity)
                 return [...prev, { ...product, quantity, productTotal }];
+                
             });
 
             // Actualizamos el total general
@@ -141,6 +144,7 @@ const DashboardComponent = () => {
     const handleQuantityChange = (value: number) => {
         const productName = form.getFieldValue('product');
         const product = products.find(p => p.Name === productName);
+        console.log('valor que se va a usar en la venta', value)
 
         if (product) {
             const productTotal = product.PublicPrice * value;

@@ -1,5 +1,5 @@
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-import logo from '../../assets/img/logo.png';
+import logo from '../../assets/img/logo-black.png';
 
 
 
@@ -68,7 +68,7 @@ const generarPDF = async (cliente: string, productos: any[], total: number, domi
         const totalProducto = (producto.PublicPrice * producto.Amount).toFixed(2);
         page.drawText(`- ${producto.Name}`, { x: 40, y: yPosition, size: 10, font, color: rgb(0, 0, 0) });
         page.drawText(`$${producto.PublicPrice}`, { x: 160, y: yPosition, size: 10, font, color: rgb(0, 0, 0) });
-        page.drawText(`${producto.Amount}`, { x: 280, y: yPosition, size: 10, font, color: rgb(0, 0, 0) });
+        page.drawText(`${producto.quantity}`, { x: 280, y: yPosition, size: 10, font, color: rgb(0, 0, 0) });
         page.drawText(`$${totalProducto}`, { x: 380, y: yPosition, size: 10, font, color: rgb(0, 0, 0) });
         yPosition -= 20; // Decrementar la posición Y para el siguiente producto
     });

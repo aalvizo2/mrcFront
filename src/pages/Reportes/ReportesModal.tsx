@@ -52,7 +52,7 @@ export const SeeModal: React.FC<SeeModalProps>= ({open, datoFila, onCancel}) => 
                        padding: '8px 0'
                     }}>
                         <span>{item.Name}</span>
-                        <span>Cantidad: {item.Amount}</span>
+                        <span>Cantidad: {item.quantity}</span>
                         <span>Precio: ${item.Price}</span>
                         <span>Total: ${item.productTotal}</span>
                    </li>
