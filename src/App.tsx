@@ -10,9 +10,10 @@ import Reportes from './pages/Reportes/Reportes';
 
 const App: React.FC = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const basename='/mrcFront'
 
     return (
-        <Router basename={window.location.hostname === 'aalvizo.github.io' ? '/mrcFront' : ''}>
+        <Router basename={basename}>
             <Routes>
                 <Route path="/" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
                 <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Login setIsAuthenticated={setIsAuthenticated} />} />
